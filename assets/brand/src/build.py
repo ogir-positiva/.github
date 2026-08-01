@@ -3,6 +3,7 @@ from typeset import typeset, width
 
 NARANJA = "#F2681C"
 
+
 PALETAS = {
     "panel": {  # sobre el panel oscuro propio
         "fuerte": "#FFFFFF",
@@ -10,6 +11,7 @@ PALETAS = {
         "chip": "#DDE6EC",
         "suave": "#A7B7C4",
         "linea": "#22323F",
+        "gris": "#6E7781",
         "fantasma": 0.20,
         "velo": 0.09,
     },
@@ -19,6 +21,7 @@ PALETAS = {
         "chip": "#C9D6E0",
         "suave": "#8B949E",
         "linea": "#30363D",
+        "gris": "#6E7781",
         "fantasma": 0.16,
         "velo": 0.07,
     },
@@ -28,6 +31,7 @@ PALETAS = {
         "chip": "#2C3B48",
         "suave": "#57606A",
         "linea": "#D0D7DE",
+        "gris": "#8C959F",
         "fantasma": 0.13,
         "velo": 0.05,
     },
@@ -61,12 +65,13 @@ def iconos(*cuales):
     return "\n    ".join(base[c].format(o=NARANJA) for c in cuales)
 
 
-def monograma(halo_cls, fuerte):
+def monograma(halo_cls, fuerte, principal=NARANJA, halo_op=0.20):
     """El contra de la G usa el color 'fuerte' del tema: en fondo claro tiene
-    que ser oscuro, no blanco, o el interior de la letra desaparece."""
-    return f"""<circle{halo_cls} cx="150" cy="128" r="80" fill="none" stroke="{NARANJA}" stroke-opacity="0.20" stroke-width="1.4" stroke-dasharray="3 9"/>
-    <path d="M208 128 A58 58 0 1 1 183.27 80.49" fill="none" stroke="{NARANJA}" stroke-width="22"/>
-    <rect x="150" y="117" width="70" height="22" rx="1.5" fill="{NARANJA}"/>
+    que ser oscuro, no blanco, o el interior de la letra desaparece.
+    `principal` permite versiones en gris (footer) sin duplicar la geometría."""
+    return f"""<circle{halo_cls} cx="150" cy="128" r="80" fill="none" stroke="{principal}" stroke-opacity="{halo_op}" stroke-width="1.4" stroke-dasharray="3 9"/>
+    <path d="M208 128 A58 58 0 1 1 183.27 80.49" fill="none" stroke="{principal}" stroke-width="22"/>
+    <rect x="150" y="117" width="70" height="22" rx="1.5" fill="{principal}"/>
     <path d="M168.73 148.81 A28 28 0 1 1 168.73 107.19" fill="none" stroke="{fuerte}" stroke-width="15"/>"""
 
 
@@ -286,11 +291,14 @@ def linktree(size=26):
 
 # ---------------------------------------------------------------- footer ----
 def footer(tema="dark"):
-    """Footer minimalista: regla de acento a todo el ancho y el monograma
-    solo, a la izquierda. Los textos y enlaces van en Markdown debajo, porque
-    un <a> dentro de un SVG cargado con <img> no es clickeable."""
+    """Footer minimalista: regla de acento fina a todo el ancho y el monograma
+    centrado, pequeño y en gris. Los textos y enlaces van en Markdown debajo,
+    porque un <a> dentro de un SVG cargado con <img> no es clickeable.
+
+    El monograma en gris deja el naranja como acento único de la regla: en un
+    cierre conviene que la marca acompañe en vez de competir con el contenido."""
     p = PALETAS[tema]
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 110" width="1200" height="110" role="img" aria-label="OGIR Positiva">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 92" width="1200" height="92" role="img" aria-label="OGIR Positiva">
   <title>OGIR Positiva</title>
   <defs>
     <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
@@ -299,10 +307,10 @@ def footer(tema="dark"):
     </linearGradient>
 {estilo("600px 40px", "150px 128px")}  </defs>
 
-  <rect x="0" y="6" width="1200" height="2.5" fill="url(#rule)"/>
+  <rect x="0" y="6" width="1200" height="1.25" fill="url(#rule)"/>
 
-  <g transform="translate(58 66) scale(0.30) translate(-150 -128)">
-    {monograma(' class="halo"', p["fuerte"])}
+  <g transform="translate(600 54) scale(0.20) translate(-150 -128)">
+    {monograma(' class="halo"', p["fuerte"], p["gris"], 0.38)}
   </g>
 </svg>
 """
