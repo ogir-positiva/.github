@@ -1,4 +1,4 @@
-"""Convierte texto a paths SVG usando Inter, con shaping y kerning reales (HarfBuzz)."""
+
 import io
 from functools import lru_cache
 
