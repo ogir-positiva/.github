@@ -3,7 +3,6 @@ from typeset import typeset, width
 
 NARANJA = "#F2681C"
 
-
 PALETAS = {
     "panel": {  # sobre el panel oscuro propio
         "fuerte": "#FFFFFF",
@@ -262,59 +261,48 @@ def slim(tema="panel"):
 """
 
 
+# -------------------------------------------------------------- linktree ----
+# Icono de Font Awesome Free 7.3.1, bajo licencia CC BY 4.0. La licencia exige
+# atribución: por eso el comentario de copyright viaja dentro del archivo y no
+# debe borrarse.  https://fontawesome.com/license/free
+LINKTREE_PATH = (
+    "M112 237.4L237.8 237.4L148.4 152L197.9 101L283.1 188.8L283.1 64L357 64L357 188.8"
+    "L442.2 101.2L491.6 152L402.2 237.2L527.9 237.2L527.9 307.7L401.5 307.7L491.5 395.3"
+    "L442.2 445.1L320 322.1L197.8 445.1L148.3 395.5L238.3 307.9L111.9 307.9L111.9 237.4z"
+    "M282.9 408.8L356.8 408.8L356.8 576L282.9 576L282.9 408.8z"
+)
+
+
+def linktree(size=26):
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="{size}" height="{size}" role="img" aria-label="Linktree">
+  <title>Linktree</title>
+  <!--!Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com
+       License - https://fontawesome.com/license/free (Icons: CC BY 4.0)
+       Copyright 2026 Fonticons, Inc.-->
+  <path d="{LINKTREE_PATH}" fill="{NARANJA}"/>
+</svg>
+"""
+
+
 # ---------------------------------------------------------------- footer ----
 def footer(tema="dark"):
-    """Footer minimalista al estilo de la referencia: regla de acento arriba,
-    marca centrada y protagónica, línea legal fina, y el logotipo enorme en
-    marca de agua al pie sangrando por abajo."""
+    """Footer minimalista: regla de acento a todo el ancho y el monograma
+    solo, a la izquierda. Los textos y enlaces van en Markdown debajo, porque
+    un <a> dentro de un SVG cargado con <img> no es clickeable."""
     p = PALETAS[tema]
-    cx = 600
-
-    # Marca centrada
-    w_og = width("OGIR", 30, 800, 30, -0.7)
-    w_pos = width("Positiva", 30, 800, 30, -0.7)
-    x0 = cx - (w_og + 8 + w_pos) / 2
-    og, _ = T("OGIR", 30, x0, 96, 800, 30, -0.7, fill=p["fuerte"])
-    pos, _ = T("Positiva", 30, x0 + w_og + 8, 96, 800, 30, -0.7, fill=NARANJA)
-
-    w_sub = width("Oficina de Gestión Integral de Riesgos", 15, 400, 15)
-    sub, _ = T("Oficina de Gestión Integral de Riesgos", 15, cx - w_sub / 2, 122, 400, 15, fill=p["suave"])
-
-    legal = "Uso interno · Organización privada · Todos los derechos reservados"
-    w_legal = width(legal, 13, 400, 14)
-    leg, _ = T(legal, 13, cx - w_legal / 2, 168, 400, 14, fill=p["suave"])
-
-    # Logotipo gigante en marca de agua, sangrando por el borde inferior
-    w_giant = width("OGIR", 150, 800, 32, -6)
-    giant, _ = T("OGIR", 150, cx - w_giant / 2, 268, 800, 32, -6, fill=NARANJA, opacity=0.07)
-
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 220" width="1200" height="220" role="img" aria-label="OGIR Positiva — Oficina de Gestión Integral de Riesgos. Uso interno, organización privada.">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 110" width="1200" height="110" role="img" aria-label="OGIR Positiva">
   <title>OGIR Positiva</title>
   <defs>
     <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="{NARANJA}" stop-opacity="0"/><stop offset="0.5" stop-color="{NARANJA}"/>
       <stop offset="1" stop-color="{NARANJA}" stop-opacity="0"/>
     </linearGradient>
-    <clipPath id="fclip"><rect x="0" y="0" width="1200" height="220"/></clipPath>
 {estilo("600px 40px", "150px 128px")}  </defs>
 
-  <g clip-path="url(#fclip)">
-    {giant}
+  <rect x="0" y="6" width="1200" height="2.5" fill="url(#rule)"/>
 
-    <!-- Regla de acento: el gesto que marca el corte con el contenido -->
-    <rect x="0" y="8" width="1200" height="2.5" fill="url(#rule)"/>
-
-    <!-- Monograma centrado sobre la regla -->
-    <g transform="translate({cx} 40) scale(0.26) translate(-150 -128)">
-      {monograma(' class="halo"', p["fuerte"])}
-    </g>
-
-    {og}
-    {pos}
-    {sub}
-
-    <rect x="{cx - 120}" y="146" width="240" height="1" fill="{p['linea']}"/>
-    {leg}
+  <g transform="translate(58 66) scale(0.30) translate(-150 -128)">
+    {monograma(' class="halo"', p["fuerte"])}
   </g>
 </svg>
 """
@@ -336,6 +324,8 @@ if __name__ == "__main__":
         # Footer (siempre transparente)
         "ogir-footer-light.svg": footer("light"),
         "ogir-footer-dark.svg": footer("dark"),
+        # Icono suelto para la fila de enlaces
+        "ogir-linktree.svg": linktree(),
     }
     for nombre, contenido in salidas.items():
         with open(nombre, "w", encoding="utf-8") as fh:
