@@ -1,9 +1,3 @@
-"""Genera los activos de marca de OGIR Positiva.
-
-Todo el texto se convierte a contornos con Inter, así el resultado es idéntico
-en cualquier equipo (GitHub no carga fuentes externas dentro de un SVG).
-Este archivo es la fuente de verdad: para cambiar algo, editar acá y regenerar.
-"""
 from typeset import typeset, width
 
 NARANJA = "#F2681C"
@@ -13,9 +7,6 @@ CHIP = "#DDE6EC"
 APAGADO = "#A7B7C4"
 LINEA = "#22323F"
 
-# Atributos: se conservan los tres que aportan información (dos verbos del
-# oficio + el diferenciador). "Integridad" y "Compromiso" salieron porque son
-# valores que cualquier organización declara y por eso informan menos.
 ATRIBUTOS = [("ic-search", "Análisis"), ("ic-target", "Prevención"), ("ic-chip", "IA")]
 
 
